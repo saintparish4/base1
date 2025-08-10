@@ -34,7 +34,7 @@ export class PaymentService {
       }
 
       if (merchant.status !== "active") {
-        throw new CustomError("Merchant is not active", 403);
+        throw new CustomError("Merchant account is not active", 403);
       }
 
       // VALIDATE PAYMENT AMOUNT

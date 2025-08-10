@@ -7,9 +7,10 @@ describe("Payments API", () => {
   let merchantId: string;
 
   beforeEach(async () => {
-    // CREATE TEST MERCHANT
+    // CREATE TEST MERCHANT WITH UNIQUE EMAIL
+    const uniqueEmail = `merchant-${Date.now()}-${Math.random().toString(36).substring(7)}@test.com`;
     const merchant = await MerchantModel.create({
-      email: "merchant@test.com",
+      email: uniqueEmail,
       password: "TestPassword123!",
       businessName: "Test Business",
     });
@@ -17,6 +18,8 @@ describe("Payments API", () => {
     merchantId = merchant.id;
     merchantApiKey = merchant.apiKey!;
   });
+
+  // Note: Database cleanup happens automatically between test runs
 
   describe("POST /api/payments", () => {
     const validPayment = {

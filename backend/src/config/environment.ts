@@ -10,7 +10,7 @@ export const config = {
   database: {
     host: process.env.DB_HOST || "localhost",
     port: parseInt(process.env.DB_PORT || "5432", 10),
-    name: process.env.DB_NAME || "base_db",
+    name: process.env.DB_NAME || "base_test",
     user: process.env.DB_USER || "postgres",
     password: process.env.DB_PASSWORD || "password",
     ssl: process.env.DB_SSL === "true",
@@ -19,7 +19,7 @@ export const config = {
   // REDIS
   redis: {
     host: process.env.REDIS_HOST || "localhost",
-    port: parseInt(process.env.REDIS_PORT || "6379", 10),
+    port: parseInt(process.env.REDIS_PORT || "6380", 10),
     password: process.env.REDIS_PASSWORD || "",
   },
 
@@ -39,7 +39,7 @@ export const config = {
     polygon:
       process.env.POLYGON_RPC_URL ||
       "https://polygon-mainnet.infura.io/v3/your-infura-project-id",
-    privateKey: process.env.PRIVATE_KEY || "",
+    privateKey: process.env.PRIVATE_KEY || "0x93adcd3dec4f15d4beadea0604064eb6f3f00978f7904465ecae824e6e9a76ba",
     usdcContractAddress:
       process.env.USDC_CONTRACT_ADDRESS ||
       "0x2791Bca1f2de4661ED88A30C99A7a9449Aa84174",

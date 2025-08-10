@@ -1,6 +1,5 @@
 # Multi-stage build for production
-# Multi-stage build for production
-FROM node:20-alpine
+FROM node:20-alpine AS builder
 
 WORKDIR /app
 
@@ -8,17 +7,18 @@ WORKDIR /app
 COPY package*.json ./
 COPY tsconfig.json ./
 
-# Install dependencies
-RUN npm ci --only=production && npm cache clean --force
+# Install dependencies (including dev dependencies for building)
+RUN npm ci && npm cache clean --force
 
-# Copy source code
+# Copy source code and tests
 COPY src/ ./src/
+COPY tests/ ./tests/
 
 # Build application
 RUN npm run build
 
 # Production stage
-FROM node:18-alpine AS production
+FROM node:20-alpine AS production
 
 WORKDIR /app
 
@@ -30,6 +30,8 @@ RUN addgroup -g 1001 -S nodejs && \
 COPY --from=builder /app/dist ./dist
 COPY --from=builder /app/node_modules ./node_modules
 COPY --from=builder /app/package*.json ./
+COPY --from=builder /app/tests ./tests
+COPY --from=builder /app/src ./src
 
 # Create logs directory
 RUN mkdir -p logs && chown -R cryptopay:nodejs logs
@@ -43,4 +45,4 @@ HEALTHCHECK --interval=30s --timeout=10s --start-period=60s --retries=3 \
 
 EXPOSE 3001
 
-CMD ["node", "dist/index.js"]
+CMD ["node", "dist/src/index.js"]

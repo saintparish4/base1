@@ -106,8 +106,13 @@ export function verifyHmacSignature(
   secret: string
 ): boolean {
   const expectedSignature = createHmacSignature(data, secret);
-  return crypto.timingSafeEqual(
-    Buffer.from(signature),
-    Buffer.from(expectedSignature)
-  );
+  const signatureBuffer = Buffer.from(signature);
+  const expectedBuffer = Buffer.from(expectedSignature);
+  
+  // Return false if buffers have different lengths
+  if (signatureBuffer.length !== expectedBuffer.length) {
+    return false;
+  }
+  
+  return crypto.timingSafeEqual(signatureBuffer, expectedBuffer);
 }

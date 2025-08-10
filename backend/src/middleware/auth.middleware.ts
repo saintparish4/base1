@@ -83,8 +83,8 @@ export function requireMerchantOwnership(
 }
 
 // API KEY AUTHENTICATION FOR EXTERNAL INTEGRATIONS
-export function authenticateApiKey(
-  req: Request,
+export async function authenticateApiKey(
+  req: AuthenticatedRequest,
   res: Response,
   next: NextFunction
 ) {
@@ -94,12 +94,35 @@ export function authenticateApiKey(
     return res.status(401).json({ error: "API key required" });
   }
 
-  // IN A REAL IMPLEMENTATION, WILL VALIDATE AGAINST DATABASE
-  // FOR NOW, JUST CHECK IF ITS PRESENT AND HAS THE RIGHT FORMAT
+  // VALIDATE API KEY FORMAT
   if (!/^cp_[a-zA-Z0-9]{32}$/.test(apiKey)) {
     return res.status(401).json({ error: "Invalid API key format" });
   }
 
-  // TODO: VALIDATE API KEY AGAINST DATABASE AND ATTACH MERCHANT INFO TO REQ.USER
-  next();
+  try {
+    // VALIDATE API KEY AGAINST DATABASE
+    const { MerchantModel } = await import("../models/merchant.model");
+    const merchant = await MerchantModel.findByApiKey(apiKey);
+
+    if (!merchant) {
+      return res.status(401).json({ error: "Invalid API key" });
+    }
+
+    if (merchant.status !== "active") {
+      return res.status(401).json({ error: "Merchant account is not active" });
+    }
+
+    // ATTACH MERCHANT INFO TO REQUEST
+    req.user = {
+      id: merchant.id,
+      email: merchant.email,
+      role: "merchant",
+      merchantId: merchant.id,
+    };
+
+    next();
+  } catch (error) {
+    logger.error("API key validation error:", error);
+    return res.status(500).json({ error: "Internal server error" });
+  }
 }

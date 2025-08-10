@@ -1,7 +1,7 @@
 /// <reference types="jest" />
 import request from "supertest";
 import app from "../../../src/index";
-import { MerchantModel } from "src/models/merchant.model";
+import { MerchantModel } from "../../../src/models/merchant.model";
 
 describe("Auth API", () => {
   describe("POST /api/auth/register", () => {

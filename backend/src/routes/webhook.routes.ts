@@ -1,9 +1,9 @@
-import { Router } from "express";
+import { Router, type Router as ExpressRouter } from "express";
 import { WebhookController } from "../controllers/webhook.controller";
 import { webhookRateLimit } from "../middleware/rate-limit.middleware";
 import { asyncHandler } from "../middleware/error.middleware";
 
-const router = Router();
+const router: ExpressRouter = Router();
 const webhookController = new WebhookController();
 
 // APPLY RATE LIMITING

@@ -1,11 +1,11 @@
-import { Router } from "express";
+import { Router, type Router as ExpressRouter } from "express";
 import { body } from "express-validator";
 import { PaymentController } from "../controllers/payment.controller";
 import { authenticateApiKey, authenticateToken } from "../middleware/auth.middleware";
 import { paymentRateLimit } from "../middleware/rate-limit.middleware";
 import { asyncHandler } from "../middleware/error.middleware";
 
-const router = Router();
+const router: ExpressRouter = Router();
 const paymentController = new PaymentController();
 
 // CREATE PAYMENT (API key auth for merchant integrations)

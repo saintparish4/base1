@@ -39,3 +39,39 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# Backend build artifacts and logs
+backend/dist/
+backend/logs/
+backend/*.log
+
+# Database files
+postgres/
+
+# SSL certificates
+ssl/
+
+# Log files (general)
+*.log
+logs/
+
+# Remove redundant lock files (keep only pnpm-lock.yaml)
+backend/package-lock.json
+package-lock.json
+
+# IDE and editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS generated files
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# Temporary files
+*.tmp
+*.temp
+.cache/

@@ -1,10 +1,10 @@
-import { Router } from "express";
+import { Router, type Router as ExpressRouter } from "express";
 import { body } from "express-validator";
 import { AuthController } from "../controllers/auth.controller";
 import { authRateLimit } from "../middleware/rate-limit.middleware";
 import { asyncHandler } from "../middleware/error.middleware";
 
-const router = Router();
+const router: ExpressRouter = Router();
 const authController = new AuthController();
 
 // APPLY RATE LIMITING TO AUTH ROUTES

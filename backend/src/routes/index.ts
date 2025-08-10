@@ -1,4 +1,4 @@
-import { Router } from "express";
+import { Router, type Router as ExpressRouter } from "express";
 import authRoutes from "./auth.routes";
 // import merchantRoutes from "./merchant.routes";
 import paymentRoutes from "./payment.routes";
@@ -6,7 +6,7 @@ import paymentRoutes from "./payment.routes";
 import webhookRoutes from "./webhook.routes";
 //import adminRoutes from "./admin.routes";
 
-const router = Router();
+const router: ExpressRouter = Router();
 
 // HEALTH CHECK ENDPOINT
 router.get("/health", (req, res) => {

@@ -10,7 +10,7 @@ import routes from "./routes";
 import { connectDatabase } from "./database/connection";
 import { connectRedis } from "./config/redis";
 
-const app = express();
+const app: express.Express = express();
 
 // Security middleware
 app.use(
